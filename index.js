@@ -17,7 +17,7 @@ const pool = new Pool({
 
 // Health check
 index.get('/health', (req, res) => {
-    res.status(200).send('OK');
+    res.status(200).json({ status: 'ok', service: 'product-service' });
 });
 
 // Get all products
