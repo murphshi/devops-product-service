@@ -51,7 +51,7 @@ pipeline {
             }
             steps {
                 echo "Deploying product-service to dev environment from ${env.GIT_BRANCH}"
-                sh 'bash /Users/shidonglizhen/Desktop/mpcs-devops/devops-k8s/product-service/render-deployment.sh ${IMAGE_TAG}'
+                sh 'bash k8s/render-deployment.sh ${IMAGE_TAG}'
                 echo "Kubernetes deployment rendered with image tag ${env.IMAGE_TAG}"
             }
         }
@@ -64,7 +64,7 @@ pipeline {
             }
             steps {
                 echo "Deploying product-service to staging environment from ${env.GIT_BRANCH}"
-                sh 'bash /Users/shidonglizhen/Desktop/mpcs-devops/devops-k8s/product-service/render-deployment.sh ${IMAGE_TAG}'
+                sh 'bash k8s/render-deployment.sh ${IMAGE_TAG}'
                 echo "Kubernetes deployment rendered with image tag ${env.IMAGE_TAG}"
             }
         }
@@ -88,7 +88,7 @@ pipeline {
             }
             steps {
                 echo "Deploying product-service to production environment from ${env.GIT_BRANCH}"
-                sh 'bash /Users/shidonglizhen/Desktop/mpcs-devops/devops-k8s/product-service/render-deployment.sh ${IMAGE_TAG}'
+                sh 'bash k8s/render-deployment.sh ${IMAGE_TAG}'
                 echo "Kubernetes deployment rendered with image tag ${env.IMAGE_TAG}"
             }
         }
