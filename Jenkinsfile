@@ -31,40 +31,44 @@ pipeline {
 
         stage('Build Environment Validation') {
             when {
-                not {
-                    anyOf {
-                        branch 'develop'
-                        branch 'main'
-                        branch pattern: "release/.*", comparator: "REGEXP"
-                    }
+                expression {
+                    return !(env.GIT_BRANCH?.contains('develop') ||
+                             env.GIT_BRANCH?.contains('release/') ||
+                             env.GIT_BRANCH?.contains('main'))
                 }
             }
             steps {
-                echo 'Build pipeline executed for feature branch or pull request validation'
+                echo "Build pipeline executed for feature branch or pull request validation on ${env.GIT_BRANCH}"
             }
         }
 
         stage('Deploy to Dev') {
             when {
-                branch 'develop'
+                expression {
+                    return env.GIT_BRANCH?.contains('develop')
+                }
             }
             steps {
-                echo 'Deploying product-service to dev environment'
+                echo "Deploying product-service to dev environment from ${env.GIT_BRANCH}"
             }
         }
 
         stage('Deploy to Staging') {
             when {
-                branch pattern: "release/.*", comparator: "REGEXP"
+                expression {
+                    return env.GIT_BRANCH?.contains('release/')
+                }
             }
             steps {
-                echo 'Deploying product-service to staging environment'
+                echo "Deploying product-service to staging environment from ${env.GIT_BRANCH}"
             }
         }
 
         stage('Prod Approval') {
             when {
-                branch 'main'
+                expression {
+                    return env.GIT_BRANCH?.contains('main')
+                }
             }
             steps {
                 input message: 'Approve deployment to production?', ok: 'Deploy'
@@ -73,10 +77,12 @@ pipeline {
 
         stage('Deploy to Prod') {
             when {
-                branch 'main'
+                expression {
+                    return env.GIT_BRANCH?.contains('main')
+                }
             }
             steps {
-                echo 'Deploying product-service to production environment'
+                echo "Deploying product-service to production environment from ${env.GIT_BRANCH}"
             }
         }
     }
