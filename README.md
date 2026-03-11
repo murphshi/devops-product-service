@@ -29,3 +29,4 @@ This repository follows the Git Flow model:
 npm install
 
 Release version: v1.0.0
+
