@@ -31,6 +31,12 @@ pipeline {
             }
         }
 
+        stage('Container Push') {
+            steps {
+                echo "Container push placeholder for product-service:${env.IMAGE_TAG}"
+            }
+        }
+
         stage('Shared Library Logging') {
             steps {
                 script {
