@@ -1,3 +1,5 @@
+@Library('devopsSharedLib') _
+
 pipeline {
     agent any
 
@@ -25,6 +27,14 @@ pipeline {
                 script {
                     env.IMAGE_TAG = "build-${env.BUILD_NUMBER}"
                     sh "docker build -t product-service:${env.IMAGE_TAG} ."
+                }
+            }
+        }
+
+        stage('Shared Library Logging') {
+            steps {
+                script {
+                    logEnvironment('product-service', env.GIT_BRANCH ?: 'unknown', env.IMAGE_TAG ?: 'unset')
                 }
             }
         }
