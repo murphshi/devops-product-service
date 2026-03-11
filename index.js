@@ -20,7 +20,7 @@ index.get('/health', (req, res) => {
     res.status(200).json({
         status: 'OK',
         service: 'product-service',
-        version: 'phase6-product-demo-v2'
+        version: 'phase6-product-demo-v3'
     });
 });
 
