@@ -23,8 +23,8 @@ pipeline {
         stage('Container Build') {
             steps {
                 script {
-                    def imageTag = "build-${env.BUILD_NUMBER}"
-                    sh "docker build -t product-service:${imageTag} ."
+                    env.IMAGE_TAG = "build-${env.BUILD_NUMBER}"
+                    sh "docker build -t product-service:${env.IMAGE_TAG} ."
                 }
             }
         }
@@ -39,6 +39,7 @@ pipeline {
             }
             steps {
                 echo "Build pipeline executed for feature branch or pull request validation on ${env.GIT_BRANCH}"
+                echo "Image tag prepared: ${env.IMAGE_TAG}"
             }
         }
 
@@ -50,6 +51,8 @@ pipeline {
             }
             steps {
                 echo "Deploying product-service to dev environment from ${env.GIT_BRANCH}"
+                sh 'bash /Users/shidonglizhen/Desktop/mpcs-devops/devops-k8s/product-service/render-deployment.sh ${IMAGE_TAG}'
+                echo "Kubernetes deployment rendered with image tag ${env.IMAGE_TAG}"
             }
         }
 
@@ -61,6 +64,8 @@ pipeline {
             }
             steps {
                 echo "Deploying product-service to staging environment from ${env.GIT_BRANCH}"
+                sh 'bash /Users/shidonglizhen/Desktop/mpcs-devops/devops-k8s/product-service/render-deployment.sh ${IMAGE_TAG}'
+                echo "Kubernetes deployment rendered with image tag ${env.IMAGE_TAG}"
             }
         }
 
@@ -83,6 +88,8 @@ pipeline {
             }
             steps {
                 echo "Deploying product-service to production environment from ${env.GIT_BRANCH}"
+                sh 'bash /Users/shidonglizhen/Desktop/mpcs-devops/devops-k8s/product-service/render-deployment.sh ${IMAGE_TAG}'
+                echo "Kubernetes deployment rendered with image tag ${env.IMAGE_TAG}"
             }
         }
     }
